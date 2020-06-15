@@ -49,13 +49,13 @@ jointtail=sim.send_hinge_joint(tailj, servobd[3], x=-72.65, y=0, z=7.2, n1=0, n2
 propriceptivesenhead= sim.send_proprioceptive_sensor(jointhead)
 propriceptivesentail= sim.send_proprioceptive_sensor(jointtail)
 #raysensor
-raysenhead[0]= sim.send_ray_sensor(body_id=head, x=0, y=0, z=0, r1=0, r2=0, r3=1, max_distance=10)
-raysentail[0]= sim.send_ray_sensor(body_id=head, x=0, y=0, z=0, r1=0, r2=0, r3=1, max_distance=10)
-raysenhead[1]= sim.send_ray_sensor(body_id=head, x=0, y=0, z=0, r1=0, r2=0, r3=1, max_distance=10)
-raysentail[1]= sim.send_ray_sensor(body_id=tail, x=0, y=0, z=0, r1=0, r2=0, r3=1, max_distance=10)
-raysenhead[2]= sim.send_ray_sensor(body_id=tail, x=0, y=0, z=0, r1=0, r2=0, r3=1, max_distance=10)
-raysentail[2]= sim.send_ray_sensor(body_id=tail, x=0, y=0, z=0, r1=0, r2=0, r3=1, max_distance=10)
-    
-    
+raysenhead[0]= sim.send_ray_sensor(body_id=head, x=0, y=0, z=7.7/2, r1=1, r2=0, r3=0, max_distance=20)
+raysentail[0]= sim.send_ray_sensor(body_id=tail, x=-87, y=0, z=7.7/2, r1=-1, r2=0, r3=0, max_distance=20)
+raysenhead[1]= sim.send_ray_sensor(body_id=head, x=-4.25, y=-3.45, z=7.7/2, r1=0, r2=-1, r3=0, max_distance=20)
+raysentail[1]= sim.send_ray_sensor(body_id=tail, x=-80.75, y=-3.45, z=7.7/2, r1=0, r2=-1, r3=0, max_distance=20)
+raysentail[2]= sim.send_ray_sensor(body_id=head, x=-4.25, y=3.45, z=7.7/2, r1=0, r2=1, r3=0, max_distance=20)
+raysenhead[2]= sim.send_ray_sensor(body_id=tail, x=-80.75, y=3.45, z=7.7/2, r1=0, r2=1, r3=0, max_distance=20)
+
+
 sim.start()
 sim.wait_to_finish()
