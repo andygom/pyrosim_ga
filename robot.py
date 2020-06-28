@@ -81,6 +81,7 @@ class ROBOT:
 
         #positionSensor 
         self.Poshead = sim.send_position_sensor( body_id = head )
+        self.Postail = sim.send_position_sensor (tail)
 
         #hiddenNeuron    hidden
         for i in range (0, 14):

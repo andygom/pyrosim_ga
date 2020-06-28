@@ -8,24 +8,30 @@ import numpy as np
 
 class INDIVIDUAL:
 
-    def __init__(self): 
+    def __init__(self, i): 
+        self.ID = i
         self.genomehidden = np.random.rand(14, 14)
         self.genomeoutput = np.random.rand(14, 8)
         # print(self.genome)
         
 
-    def Evaluate(self, pb): 
-        sim = pyrosim.Simulator(play_blind=pb, eval_time=1000, debug=False, play_paused= False, use_textures=True, xyz=[-25,-50,0])
-        robot = ROBOT (sim, self.genomehidden, self.genomeoutput ) 
-        sim.start()
-        sim.wait_to_finish()
+    def Start_Evaluation(self, pb): 
+        self.sim = pyrosim.Simulator(play_blind=pb, eval_time=1000, debug=False, play_paused= False, use_textures=True, xyz=[-25,-50,0])
+        self.robot = ROBOT (self.sim, self.genomehidden, self.genomeoutput ) 
+        self.sim.start()
+        
 
-        self.x = sim.get_sensor_data( sensor_id = robot.Poshead , svi = 0 )
-        y = sim.get_sensor_data( sensor_id = robot.Poshead , svi = 1 )
-        z = sim.get_sensor_data( sensor_id = robot.Poshead , svi = 2 )
-        self.fitness = self.x[-1]+4.25
-        #print("Sensor x", x[-1]+4.25)
+    def Compute_Fitness(self):
+        self.sim.wait_to_finish()
+        self.xh = self.sim.get_sensor_data( sensor_id = self.robot.Poshead , svi = 0 )
+        self.xt = self.sim.get_sensor_data( sensor_id = self.robot.Postail , svi = 0 )
+        y = self.sim.get_sensor_data( sensor_id = self.robot.Poshead , svi = 1 )
+        z = self.sim.get_sensor_data( sensor_id = self.robot.Poshead , svi = 2 )
+        self.fitness = (self.xh[-1]+self.xt[-1])/2+4.25
+        del self.sim
+       
 
+    #verificar mutacion
     def Mutate(self): 
         for j in range (0, 13):
           for i in range (0, 13):
@@ -46,4 +52,8 @@ class INDIVIDUAL:
           for i in range (0, 7):
             mutgen = random.randint(0, 1000)
             if mutgen < 130 :
-              self.genomeoutput[j][i] = random.gauss( self.genomeoutput[j][i] , math.fabs(self.genomeoutput[j][i]))          
+              self.genomeoutput[j][i] = random.gauss( self.genomeoutput[j][i] , math.fabs(self.genomeoutput[j][i]))        
+
+
+    def Print(self):
+        print('[',self.ID, self.fitness, '] ', end= '')
