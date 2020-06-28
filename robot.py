@@ -15,6 +15,16 @@ propriceptiveseny = [0]*num_of_modbody
 raysenhead = [0]*num_of_modbody
 raysentail = [0]*num_of_modbody
 
+num_of_raysensors = 6
+rayneuron = [0]*num_of_raysensors
+
+num_of_joints = 8
+motorneuron = [0]*num_of_joints
+propriceptiveneuron = [0]*num_of_joints
+
+hiddenNeuron = [0]*13
+
+
 sim = pyrosim.Simulator(eval_time=1000, debug=True, play_paused= True, use_textures=True, xyz=[-25,-50,0])
 
 # head
@@ -42,19 +52,48 @@ for i in range (num_of_modbody):
     propriceptivesenx[i] = sim.send_proprioceptive_sensor(jointx[i])
     propriceptiveseny[i] = sim.send_proprioceptive_sensor(jointy[i])
 
-# joints
+# joints    head & tail
 jointhead=sim.send_hinge_joint(headj, servobd[0], x=-10.35, y=-1.68, z=4.63, n1=0, n2=1, n3=0, lo=(-math.pi / 4.0), hi=(math.pi / 4.0), speed=1.0, torque=30.0, position_control=True)
 jointtail=sim.send_hinge_joint(tailj, servobd[3], x=-72.65, y=0, z=7.2, n1=0, n2=0, n3=1, lo=(-math.pi / 4.0), hi=(math.pi / 4.0), speed=1.0, torque=30.0, position_control=True)
-#sensor
+#propriceptivesensor   head & tail
 propriceptivesenhead= sim.send_proprioceptive_sensor(jointhead)
 propriceptivesentail= sim.send_proprioceptive_sensor(jointtail)
 #raysensor
-raysenhead[0]= sim.send_ray_sensor(body_id=head, x=0, y=0, z=7.7/2, r1=1, r2=0, r3=0, max_distance=20)
-raysentail[0]= sim.send_ray_sensor(body_id=tail, x=-87, y=0, z=7.7/2, r1=-1, r2=0, r3=0, max_distance=20)
-raysenhead[1]= sim.send_ray_sensor(body_id=head, x=-4.25, y=-3.45, z=7.7/2, r1=0, r2=-1, r3=0, max_distance=20)
-raysentail[1]= sim.send_ray_sensor(body_id=tail, x=-80.75, y=-3.45, z=7.7/2, r1=0, r2=-1, r3=0, max_distance=20)
-raysentail[2]= sim.send_ray_sensor(body_id=head, x=-4.25, y=3.45, z=7.7/2, r1=0, r2=1, r3=0, max_distance=20)
-raysenhead[2]= sim.send_ray_sensor(body_id=tail, x=-80.75, y=3.45, z=7.7/2, r1=0, r2=1, r3=0, max_distance=20)
+raysenhead[0] = sim.send_ray_sensor(body_id=head, x=0, y=0, z=7.7/2, r1=1, r2=0, r3=0, max_distance=20)
+raysentail[0] = sim.send_ray_sensor(body_id=tail, x=-87, y=0, z=7.7/2, r1=-1, r2=0, r3=0, max_distance=20)
+raysenhead[1] = sim.send_ray_sensor(body_id=head, x=-4.25, y=-3.45, z=7.7/2, r1=0, r2=-1, r3=0, max_distance=20)
+raysentail[1] = sim.send_ray_sensor(body_id=tail, x=-80.75, y=-3.45, z=7.7/2, r1=0, r2=-1, r3=0, max_distance=20)
+raysentail[2] = sim.send_ray_sensor(body_id=head, x=-4.25, y=3.45, z=7.7/2, r1=0, r2=1, r3=0, max_distance=20)
+raysenhead[2] = sim.send_ray_sensor(body_id=tail, x=-80.75, y=3.45, z=7.7/2, r1=0, r2=1, r3=0, max_distance=20)
+
+
+#rayneuron    input
+for i in range (num_of_modbody):
+    rayneuron[i] = sim.send_user_input_neuron(raysenhead[i])
+    rayneuron[i+3] = sim.send_user_input_neuron(raysentail[i])
+
+#proprioceptiveneuron    input
+for i in range (num_of_modbody):
+    propriceptiveneuron[i] = sim.send_sensor_neuron(propriceptivesenx[i])
+    propriceptiveneuron[i+3] = sim.send_sensor_neuron(propriceptiveseny[i])
+propriceptiveneuron[6] = sim.send_sensor_neuron(propriceptivesenhead)
+propriceptiveneuron[7] = sim.send_sensor_neuron(propriceptivesentail)
+
+#hiddenNeuron    hidden
+for i in range (0, 13):
+    hiddenNeuron[i] = sim.send_hidden_neuron()
+
+#motorneuron    output
+for i in range (num_of_modbody):
+    motorneuron[i] = sim.send_motor_neuron(jointx[i])
+    motorneuron[i+3] = sim.send_motor_neuron(jointy[i])
+motorneuron[6] = sim.send_motor_neuron(jointhead)
+motorneuron[7] = sim.send_motor_neuron(jointtail)
+
+
+#synapsis input - hidden 
+for i in range (14): 
+    sim.send_synapse()
 
 
 sim.start()
