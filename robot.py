@@ -92,40 +92,19 @@ class ROBOT:
             motorneuron[i+3] = sim.send_motor_neuron(jointy[i])
         motorneuron[6] = sim.send_motor_neuron(jointhead)
         motorneuron[7] = sim.send_motor_neuron(jointtail)
+        
         #synapsis input - hidden 
-        for i in range (0, 14): 
-            sim.send_synapse(rayneuron[0], hiddenNeuron[i], whidden[0][i])
-            sim.send_synapse(rayneuron[1], hiddenNeuron[i], whidden[1][i])
-            sim.send_synapse(rayneuron[2], hiddenNeuron[i], whidden[2][i])
-            sim.send_synapse(rayneuron[3], hiddenNeuron[i], whidden[3][i])
-            sim.send_synapse(rayneuron[4], hiddenNeuron[i], whidden[4][i])
-            sim.send_synapse(rayneuron[5], hiddenNeuron[i], whidden[5][i])
-            sim.send_synapse(propriceptiveneuron[0], hiddenNeuron[i], whidden[6][i])
-            sim.send_synapse(propriceptiveneuron[1], hiddenNeuron[i], whidden[7][i])
-            sim.send_synapse(propriceptiveneuron[2], hiddenNeuron[i], whidden[8][i])
-            sim.send_synapse(propriceptiveneuron[3], hiddenNeuron[i], whidden[9][i])
-            sim.send_synapse(propriceptiveneuron[4], hiddenNeuron[i], whidden[10][i])
-            sim.send_synapse(propriceptiveneuron[5], hiddenNeuron[i], whidden[11][i])
-            sim.send_synapse(propriceptiveneuron[6], hiddenNeuron[i], whidden[12][i])
-            sim.send_synapse(propriceptiveneuron[7], hiddenNeuron[i], whidden[13][i])
+        for j in range (0, 6):
+            for i in range (0, 14): 
+                sim.send_synapse(rayneuron[j], hiddenNeuron[i], whidden[j][i])
+        for j in range (0, 8):
+            for i in range (0, 14): 
+                sim.send_synapse(propriceptiveneuron[j], hiddenNeuron[i], whidden[6+j][i])
 
         #synapsis hidden - output   
-        for i in range (0, 7): 
-            sim.send_synapse(hiddenNeuron[0], motorneuron[i], woutput[0][i])
-            sim.send_synapse(hiddenNeuron[1], motorneuron[i], woutput[1][i])
-            sim.send_synapse(hiddenNeuron[2], motorneuron[i], woutput[2][i])
-            sim.send_synapse(hiddenNeuron[3], motorneuron[i], woutput[3][i])
-            sim.send_synapse(hiddenNeuron[4], motorneuron[i], woutput[4][i])
-            sim.send_synapse(hiddenNeuron[5], motorneuron[i], woutput[5][i])
-            sim.send_synapse(hiddenNeuron[6], motorneuron[i], woutput[6][i])
-            sim.send_synapse(hiddenNeuron[7], motorneuron[i], woutput[7][i])
-            sim.send_synapse(hiddenNeuron[8], motorneuron[i], woutput[8][i])
-            sim.send_synapse(hiddenNeuron[9], motorneuron[i], woutput[9][i])
-            sim.send_synapse(hiddenNeuron[10], motorneuron[i],woutput[10][i])
-            sim.send_synapse(hiddenNeuron[11], motorneuron[i],woutput[11][i])
-            sim.send_synapse(hiddenNeuron[12], motorneuron[i],woutput[12][i])
-            sim.send_synapse(hiddenNeuron[13], motorneuron[i],woutput[13][i])
-
+        for j in range (0, 14):
+            for i in range (0, 8): 
+                sim.send_synapse(hiddenNeuron[j], motorneuron[i], woutput[j][i])
 
         #sim.start()
         #sim.wait_to_finish()

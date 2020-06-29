@@ -10,9 +10,8 @@ class INDIVIDUAL:
 
     def __init__(self, i): 
         self.ID = i
-        self.genomehidden = np.random.rand(14, 14)
-        self.genomeoutput = np.random.rand(14, 8)
-        # print(self.genome)
+        self.genomehidden = np.random.rand(14, 14) * 2 -1 
+        self.genomeoutput = np.random.rand(14, 8) * 2 -1 
         
 
     def Start_Evaluation(self, pb): 

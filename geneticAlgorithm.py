@@ -6,9 +6,27 @@ import random
 import copy
 import pickle
 
-pop = POPULATION(5)
-pop.Evaluate()
-pop.Print()
+generations = 100
+
+parents = POPULATION(5)
+parents.Initialize()
+parents.Evaluate()
+parents.Print()
+
+
+for g in range (0, generations):
+    children = POPULATION(5)
+    children.Evaluate()
+    children.Fill_From(parents)
+    
+    exit()
+#     children = copy.deepcopy(parents)
+#     children.Mutate()
+#     children.Evaluate()
+#     parents.ReplaceWith(children)
+#     print(g)
+#     parents.Print()
+
 
 # parent = INDIVIDUAL()
 # parent.Evaluate(True)
