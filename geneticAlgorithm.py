@@ -7,7 +7,7 @@ import copy
 import pickle
 
 
-popSize = 70
+popSize = 200
 gen =  400
 
 
